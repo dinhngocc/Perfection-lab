@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfection Lab</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  </head>
+  <body>
+    <div id="p5-container"></div>
+
+    <main class="ui-container">
+      <div id="landing-content">
+        <img
+          src="./assets/page_1.svg"
+          class="decoration-img decoration-abstract"
+          alt=""
+        />
+
+        <h1 class="title-perfection">PERFECTION</h1>
+        <div class="lab-wrapper">
+          <h1>LAB</h1>
+        </div>
+
+        <div class="btn-container">
+          <button class="btn-start" id="btnStart">Start</button>
+        </div>
+      </div>
+
+      <div id="modalName" class="modal-box hidden">
+        <p class="modal-text">
+          Welcome to The Perfection Clinic. Please enter your name to begin the
+          transformation.
+        </p>
+        <input
+          type="text"
+          id="nameInput"
+          placeholder="Type here"
+          autocomplete="off"
+        />
+      </div>
+
+      <div id="modalConfirm" class="modal-box hidden">
+        <p class="modal-text">
+          Are you ready to achieve your ultimate beauty,
+          <span id="displayName" style="font-weight: bold"></span>?
+        </p>
+        <div class="modal-buttons">
+          <button class="btn-yes js-btn-yes">YES</button>
+          <button class="btn-yes js-btn-yes">YES</button>
+        </div>
+      </div>
+
+      <div id="scene-clinic" class="hidden">
+        <img src="./assets/lamp.svg" class="img-lamp" alt="Lamp" />
+        <img src="./assets/light.svg" class="img-light" alt="Light" />
+
+        <div class="person-wrapper">
+          <img
+            src="./assets/person.svg"
+            id="person-full"
+            class="img-person-full"
+            alt="Full Person"
+          />
+
+          <div id="editable-face" class="hidden">
+            <img
+              src="./assets/hair_base.svg"
+              class="img-person-base"
+              alt="Hair Base"
+            />
+
+            <img
+              src="./assets/face_base.svg"
+              class="changed-part part-face"
+              id="current-face"
+              alt="Face"
+            />
+
+            <img
+              src="./assets/brow_nose_base.svg"
+              class="changed-part part-brows-nose"
+              id="current-brows-nose"
+            />
+            <img
+              src="./assets/eye_base.svg"
+              class="changed-part part-eyes"
+              id="current-eyes"
+            />
+            <img
+              src="./assets/mouth_base.svg"
+              class="changed-part part-mouth"
+              id="current-mouth"
+            />
+
+            <div class="face-zone zone-face" data-part="face"></div>
+            <div class="face-zone zone-brows-nose" data-part="brows-nose"></div>
+            <div class="face-zone zone-eyes" data-part="eyes"></div>
+            <div class="face-zone zone-mouth" data-part="mouth"></div>
+          </div>
+        </div>
+
+        <img
+          src="./assets/knife_plate.svg"
+          class="img-knife-plate"
+          alt="Tools"
+        />
+      </div>
+
+      <div id="modalOverlay" class="modal-overlay hidden"></div>
+
+      <div id="modalInstruction" class="modal-instruction hidden">
+        <span class="instruction-text"
+          >This is your face, choose the area you want to transform.</span
+        >
+        <button id="btnDismissInstruction" class="btn-arrow">➔</button>
+      </div>
+
+      <div id="modalSuccess" class="modal-box hidden">
+        <p
+          class="modal-text"
+          style="
+            text-align: center;
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin-bottom: 40px;
+          "
+        >
+          Your appearance change is complete. Would you like to continue?
+        </p>
+        <div class="modal-buttons">
+          <button class="btn-yes js-btn-continue">YES</button>
+          <button class="btn-yes js-btn-continue">YES</button>
+        </div>
+      </div>
+      <div id="modalFinal" class="modal-box hidden">
+        <p
+          class="modal-text"
+          style="
+            text-align: center;
+            font-size: 2.2rem;
+            line-height: 1.4;
+            margin-bottom: 40px;
+          "
+        >
+          The beauty has been fully extracted. Do you want to do it again?
+        </p>
+
+        <div class="modal-buttons">
+          <button class="btn-yes js-btn-restart">YES</button>
+          <button class="btn-yes js-btn-restart">YES</button>
+        </div>
+      </div>
+      <div id="cursor-container"></div>
+    </main>
+    <script src="cursor.js"></script>
+    <script src="sketch.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
