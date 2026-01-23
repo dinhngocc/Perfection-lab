@@ -1,0 +1,490 @@
+/* --- 1. GENERAL SETUP --- */
+@font-face {
+  font-family: "regalia-monarch.regular";
+  src: url("assets/regalia-monarch.regular.ttf") format("truetype");
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  overflow: hidden;
+  background-color: #000;
+}
+
+#p5-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  background-color: #000;
+}
+
+#p5-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+
+  /* QUAN TRỌNG: Giữ hạt pixel sắc nét, không bị mờ khi phóng to */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Helper Classes */
+.hidden {
+  display: none !important;
+}
+.reveal {
+  opacity: 1 !important;
+}
+
+/* FIX SẬP LAYOUT: Giữ khung hình nhưng ẩn nội dung */
+.transparent-mode {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* --- 2. UI & LANDING PAGE --- */
+.ui-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  pointer-events: none;
+  margin-top: -50px;
+}
+.ui-container button,
+.ui-container input {
+  pointer-events: auto;
+}
+
+h1 {
+  font-family: "regalia-monarch.regular", serif;
+  font-size: 17rem;
+  text-align: right;
+  line-height: 0.8;
+  color: white;
+}
+.title-perfection {
+  text-align: center;
+  width: 100%;
+  margin-top: -10rem;
+}
+.lab-wrapper {
+  width: 100%;
+  padding-right: 15rem;
+  margin-top: 5rem;
+}
+
+#landing-content {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease;
+}
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Decor Images */
+.decoration-img {
+  position: absolute;
+  pointer-events: none;
+}
+.decoration-abstract {
+  z-index: 0;
+  top: 100%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+}
+
+/* Button Start */
+.btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 100%;
+}
+.btn-start {
+  position: absolute;
+  bottom: -60%;
+  right: 20%;
+  z-index: 10;
+  padding: 20px 60px;
+  border-radius: 10px;
+  border: 3px dashed white;
+  font-size: 4rem;
+  text-transform: uppercase;
+  background: transparent;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+/* --- 3. MODALS --- */
+.modal-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  padding: 40px;
+  /* Màu nền xám đen trong suốt */
+  background-color: rgba(60, 60, 60, 0.85);
+  backdrop-filter: blur(80px);
+  border-radius: 20px;
+  text-align: left;
+  color: white;
+  pointer-events: auto;
+  animation: fadeIn 0.5s ease;
+  z-index: 200;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.modal-text {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+#nameInput {
+  width: 100%;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.8);
+  font-size: 1.5rem;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 30px;
+}
+
+/* STYLE NÚT YES (PILL SHAPE) */
+.btn-yes {
+  padding: 15px 60px; /* To và dài */
+  border-radius: 50px; /* Bo tròn viên thuốc */
+  border: none;
+  background-color: rgba(255, 255, 255, 0.3);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+.btn-yes:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: black;
+  transform: scale(1.05);
+}
+
+/* --- 4. SCENE CLINIC --- */
+#scene-clinic {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  pointer-events: none;
+}
+#scene-clinic.fade-in {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Lamp & Light */
+.img-lamp {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 700px;
+  z-index: 3;
+  animation: hoverLamp 2s infinite ease-in-out;
+}
+.lamp-clicked {
+  pointer-events: none;
+  cursor: none;
+}
+@keyframes hoverLamp {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.img-light {
+  position: absolute;
+  top: 5%;
+  right: 0;
+  width: 110%;
+  height: auto;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+}
+.flicker-active {
+  animation: turnOn 1.5s linear forwards;
+}
+@keyframes turnOn {
+  0%,
+  10% {
+    opacity: 0;
+  }
+  11% {
+    opacity: 1;
+    filter: brightness(2);
+  }
+  12%,
+  20% {
+    opacity: 0.1;
+  }
+  21% {
+    opacity: 1;
+  }
+  24%,
+  30% {
+    opacity: 0;
+  }
+  31% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Tools */
+.img-knife-plate {
+  position: absolute;
+  bottom: 5%;
+  right: 5%;
+  width: 450px;
+  z-index: 4;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+/* ================================================= */
+/* === 5. PERSON SYSTEM (FULL FRAME STRUCTURE) === */
+/* ================================================= */
+
+.person-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-100%);
+  height: 70vh; /* Chiều cao quyết định kích thước */
+  width: auto;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+/* Ảnh gốc ban đầu */
+.img-person-full {
+  height: 100%;
+  width: auto;
+  display: block;
+}
+
+/* Container chứa các lớp chỉnh sửa */
+#editable-face {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* QUAN TRỌNG: STYLE CHUNG CHO TẤT CẢ ASSETS (FULL FRAME) */
+.img-person-base,
+.changed-part {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* Đảm bảo chồng khít 100% */
+  pointer-events: none;
+}
+
+/* Thứ tự xếp lớp (Z-Index) */
+.img-person-base {
+  z-index: 1;
+} /* Tóc/Nền */
+.part-face {
+  z-index: 2;
+} /* Da mặt */
+.part-mouth {
+  z-index: 3;
+}
+.part-eyes {
+  z-index: 4;
+}
+.part-brows-nose {
+  z-index: 5;
+} /* Mũi trên cùng */
+
+/* --- 6. CÁC VÙNG CHỌN (HITBOXES) --- */
+/* Vùng chọn VẪN CẦN TỌA ĐỘ để bấm */
+.face-zone {
+  position: absolute;
+  z-index: 20;
+  background: transparent;
+}
+
+/* Tọa độ các vùng bấm */
+.zone-face {
+  z-index: 10;
+  top: 20%;
+  left: 15%;
+  width: 70%;
+  height: 70%;
+}
+.zone-brows-nose {
+  top: 33%;
+  left: 35%;
+  width: 30%;
+  height: 38%;
+}
+.zone-eyes {
+  top: 45%;
+  left: 15%;
+  width: 70%;
+  height: 10%;
+}
+.zone-mouth {
+  top: 75%;
+  left: 35%;
+  width: 30%;
+  height: 10%;
+}
+
+/* --- 7. MODAL HƯỚNG DẪN & OVERLAY --- */
+
+.modal-overlay {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.modal-overlay.fade-in {
+  opacity: 1;
+}
+
+.modal-instruction {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  padding: 40px;
+  background-color: rgba(150, 150, 150, 0.7);
+  backdrop-filter: blur(80px);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.modal-instruction.fade-in {
+  opacity: 1;
+}
+.instruction-text {
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+}
+.btn-arrow {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 3rem;
+  transition: transform 0.2s;
+}
+.btn-arrow:hover {
+  transform: translateX(5px);
+}
+
+/* --- HIỆU ỨNG MELTING (TAN CHẢY) --- */
+
+.melting-active {
+  animation: meltDown 5s forwards cubic-bezier(0.5, 0, 0.2, 1);
+  transform-origin: top center; /* Chảy từ trên xuống */
+}
+
+@keyframes meltDown {
+  0% {
+    transform: scale(1, 1) translateY(0);
+    filter: blur(0px) contrast(100%);
+    opacity: 1;
+  }
+  30% {
+    /* Bắt đầu kéo dãn nhẹ và hơi mờ */
+    transform: scale(1.05, 1.2) translateY(20px);
+    filter: blur(2px) contrast(120%);
+    opacity: 0.9;
+  }
+  60% {
+    /* Chảy mạnh xuống, nhòe đi như chất lỏng */
+    transform: scale(1.1, 1.8) translateY(100px) skewX(5deg);
+    filter: blur(10px) contrast(150%) grayscale(50%);
+    opacity: 0.6;
+  }
+  100% {
+    /* Biến mất hoàn toàn vào hư vô */
+    transform: scale(1.2, 2.5) translateY(300px);
+    filter: blur(20px) grayscale(100%);
+    opacity: 0;
+  }
+}
+
+#cursor-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 9999; /* Luôn nằm trên cùng */
+  pointer-events: none; /* QUAN TRỌNG: Cho phép click xuyên qua để bấm nút bên dưới */
+}
+
+/* Ẩn con trỏ mặc định của trình duyệt */
+body,
+button,
+input,
+.face-zone {
+  cursor: none !important;
+}
